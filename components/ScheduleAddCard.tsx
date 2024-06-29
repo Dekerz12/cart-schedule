@@ -67,7 +67,7 @@ export default function ScheduleAddCard({
       form.setValue("publisherName2", selectedSchedule.names[1]);
       form.setValue("publisherName3", selectedSchedule.names[2]);
     }
-  }, [isEditing, selectedSchedule]);
+  }, [isEditing, selectedSchedule, form]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);

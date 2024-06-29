@@ -37,7 +37,7 @@ const SchedulerPage = () => {
     };
 
     getSchedule();
-  }, [selectedDay]);
+  }, [selectedDay, setSchedule]);
   const updateSchedule = (sched: any) => {
     setSchedule(sched);
   };
@@ -71,7 +71,11 @@ const SchedulerPage = () => {
               ) : (
                 Array.isArray(schedule) &&
                 schedule.map((sched) => (
-                  <ScheduleCard schedule={sched} hasPopover={true} />
+                  <ScheduleCard
+                    key={sched.id}
+                    schedule={sched}
+                    hasPopover={true}
+                  />
                 ))
               )}
             </div>

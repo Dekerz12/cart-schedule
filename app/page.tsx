@@ -29,7 +29,7 @@ export default function Home() {
     };
 
     getSchedule();
-  }, [selectedDay]);
+  }, [selectedDay, setSchedule]);
 
   return (
     <div className="p-2 relative">
@@ -57,7 +57,9 @@ export default function Home() {
             </div>
           ) : (
             Array.isArray(schedule) &&
-            schedule.map((sched) => <ScheduleCard schedule={sched} />)
+            schedule.map((sched) => (
+              <ScheduleCard key={sched.id} schedule={sched} />
+            ))
           )}
         </div>
       </div>
