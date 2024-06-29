@@ -1,0 +1,66 @@
+"use client";
+import DaySelector from "@/components/DaySelector";
+import ScheduleCard from "@/components/ScheduleCard";
+import { pb } from "@/lib/pocketbase";
+import { useStore } from "@/lib/slice";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+
+export default function Home() {
+  const schedule = useStore((state) => state.scheduleList);
+  const setSchedule = useStore((state) => state.updateScheduleList);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const selectedDay = useStore((state) => state.selectedDay);
+  useEffect(() => {
+    const getSchedule = async () => {
+      try {
+        setIsLoading(true);
+        const result = await pb.collection("groupSchedule").getList(1, 50, {
+          filter: `group.day="${selectedDay}"`,
+        });
+        if (result.items) {
+          setIsLoading(false);
+          setSchedule(result.items.map((item) => item.group));
+        }
+      } catch (err) {
+        setIsLoading(false);
+        console.log(err);
+      }
+    };
+
+    getSchedule();
+  }, [selectedDay]);
+
+  return (
+    <div className="p-2 relative">
+      <DaySelector />
+
+      <div className="mt-4">
+        <h1 className="p-2 text-2xl font-bold">Schedule</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4">
+          {isLoading ? (
+            <div className="h-72 flex items-center justify-center col-span-full">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={cn("animate-spin")}
+              >
+                <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+              </svg>
+            </div>
+          ) : (
+            Array.isArray(schedule) &&
+            schedule.map((sched) => <ScheduleCard schedule={sched} />)
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,107 @@
+import { Card } from "@/components/ui/card";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Button } from "./ui/button";
+import { useStore } from "@/lib/slice";
+import { PopoverClose } from "@radix-ui/react-popover";
+import { pb } from "@/lib/pocketbase";
+interface ScheduleCard {
+  schedule: {
+    id: string;
+    location: string;
+    timeRange: string;
+    names: string[];
+    day: string;
+  };
+  hasPopover?: boolean;
+}
+
+export default function ScheduleCard({
+  schedule,
+  hasPopover = false,
+}: ScheduleCard) {
+  const selectSchedule = useStore((state) => state.selectSchedule);
+
+  const setSchedule = useStore((state) => state.updateScheduleList);
+  if (hasPopover) {
+    return (
+      <Popover>
+        <PopoverTrigger>
+          <div className="p-2">
+            <Card className="max-w-lg p-4 grid gap-4">
+              <div className="flex items-center ">
+                <h3 className="text-xl font-semibold basis-1/2 sm:basis-2/3">
+                  {schedule.location}
+                </h3>
+                <div className="bg-muted px-3 py-1 rounded-full text-sm font-medium text-muted-foreground basis-1/2 sm:basis-1/3">
+                  {schedule.timeRange}
+                </div>
+              </div>
+              <div className="space-y-2">
+                {schedule.names.map((name) => (
+                  <p
+                    key={name}
+                    className="text-muted-foreground font-medium w-fit"
+                  >
+                    {name}
+                  </p>
+                ))}
+              </div>
+            </Card>
+          </div>
+        </PopoverTrigger>
+        <PopoverContent className="flex items-center justify-center gap-4 w-48">
+          <PopoverClose asChild>
+            <Button
+              onClick={() => {
+                selectSchedule(schedule);
+              }}
+            >
+              Edit
+            </Button>
+          </PopoverClose>
+          <Button
+            variant="destructive"
+            onClick={async () => {
+              await pb.collection("groupSchedule").delete(schedule.id);
+              const res = await pb.collection("groupSchedule").getList(1, 50, {
+                filter: `group.day="${schedule.day}"`,
+              });
+              if (res.items) {
+                setSchedule(
+                  res.items.map((item) => {
+                    item.group.id = item.id;
+                    return item.group;
+                  })
+                );
+              }
+            }}
+          >
+            Delete
+          </Button>
+        </PopoverContent>
+      </Popover>
+    );
+  } else {
+    return (
+      <div className="p-2">
+        <Card className="max-w-lg p-4 grid gap-4">
+          <div className="flex items-center ">
+            <h3 className="text-xl font-semibold basis-1/2 sm:basis-2/3">
+              {schedule.location}
+            </h3>
+            <div className="bg-muted px-3 py-1 rounded-full text-sm font-medium text-muted-foreground basis-1/2 sm:basis-1/3">
+              {schedule.timeRange}
+            </div>
+          </div>
+          <div className="space-y-2">
+            {schedule.names.map((name) => (
+              <p key={name} className="text-muted-foreground font-medium w-fit">
+                {name}
+              </p>
+            ))}
+          </div>
+        </Card>
+      </div>
+    );
+  }
+}
