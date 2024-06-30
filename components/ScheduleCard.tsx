@@ -27,16 +27,14 @@ export default function ScheduleCard({
       <Popover>
         <PopoverTrigger>
           <div className="p-2">
-            <Card className="max-w-lg p-4 grid gap-4">
-              <div className="flex items-center ">
-                <h3 className="text-xl font-semibold basis-1/2 sm:basis-2/3">
-                  {schedule.location}
-                </h3>
-                <div className="bg-muted px-3 py-1 rounded-full text-sm font-medium text-muted-foreground basis-1/2 sm:basis-1/3">
+            <Card className="max-w-lg p-4 grid gap-4 h-[230px]">
+              <div className="flex flex-col gap-2">
+                <h3 className="text-lg font-semibold ">{schedule.location}</h3>
+                <div className="bg-muted px-3 py-1 rounded-full text-sm font-medium text-muted-foreground w-fit">
                   {schedule.timeRange}
                 </div>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 ml-2">
                 {schedule.names.map((name) => (
                   <p
                     key={name}
@@ -81,17 +79,15 @@ export default function ScheduleCard({
     );
   } else {
     return (
-      <div className="p-2">
-        <Card className="max-w-lg p-4 grid gap-4">
-          <div className="flex items-center ">
-            <h3 className="text-xl font-semibold basis-1/2 sm:basis-2/3">
-              {schedule.location}
-            </h3>
-            <div className="bg-muted px-3 py-1 rounded-full text-sm font-medium text-muted-foreground basis-1/2 sm:basis-1/3">
+      <div className="p-2 ">
+        <Card className="max-w-lg p-4 grid gap-4 !min-h-[230px]">
+          <div className="flex flex-col gap-2">
+            <h3 className="text-lg font-semibold">{schedule.location}</h3>
+            <div className="bg-muted px-3 py-1 rounded-full text-sm font-medium text-muted-foreground w-fit">
               {schedule.timeRange}
             </div>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2 ml-2">
             {schedule.names.map((name) => (
               <p key={name} className="text-muted-foreground font-medium w-fit">
                 {name}

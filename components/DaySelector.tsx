@@ -16,10 +16,6 @@ export default function DaySelector() {
 
   return (
     <div className=" sticky top-0 bg-white grid w-full max-w-sm items-center">
-      <Label htmlFor="day" className="p-2 text-xl font-bold">
-        Day
-      </Label>
-
       <Select
         defaultValue={selectedDay}
         onValueChange={(e) => {
@@ -35,7 +31,7 @@ export default function DaySelector() {
           );
         }}
       >
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="text-xl">
           <SelectValue placeholder="Select a day" />
         </SelectTrigger>
         <SelectContent>

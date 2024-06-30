@@ -35,7 +35,6 @@ export default function Home() {
       <DaySelector />
 
       <div className="mt-4">
-        <h1 className="p-2 text-2xl font-bold">Schedule</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4">
           {isLoading ? (
             <div className="h-72 flex items-center justify-center col-span-full">
