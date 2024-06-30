@@ -11,7 +11,12 @@ import {
 } from "@/components/ui/select";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { pb } from "@/lib/pocketbase";
+import {
+  changeSchedule,
+  createScheduleList,
+  getScheduleList,
+  pb,
+} from "@/lib/pocketbase";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -95,40 +100,24 @@ export default function ScheduleAddCard({
       ),
     });
     if (!isEditing) {
-      await pb.collection("groupSchedule").create({
-        group: JSON.stringify(
-          {
-            location: data.location,
-            timeRange: data.timeRange,
-            day: data.day,
-            names,
-          },
-          null,
-          2
-        ),
+      await createScheduleList({
+        location: data.location,
+        timeRange: data.timeRange,
+        day: data.day,
+        names,
       });
     }
 
-    if (isEditing) {
-      await pb
-        .collection("groupSchedule")
-        .update(selectedSchedule?.id as string, {
-          group: JSON.stringify(
-            {
-              location: data.location,
-              timeRange: data.timeRange,
-              day: data.day,
-              names,
-            },
-            null,
-            2
-          ),
-        });
+    if (isEditing && selectedSchedule) {
+      await changeSchedule(selectedSchedule.id, {
+        location: data.location,
+        timeRange: data.timeRange,
+        day: data.day,
+        names,
+      });
       setIsEditing(false);
     }
-    const res = await pb.collection("groupSchedule").getList(1, 50, {
-      filter: `group.day="${data.day}"`,
-    });
+    const res = await getScheduleList(data.day);
     if (res.items) {
       updateSchedule(
         res.items.map((item) => {

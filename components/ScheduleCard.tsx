@@ -3,7 +3,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import { useStore } from "@/lib/slice";
 import { PopoverClose } from "@radix-ui/react-popover";
-import { pb } from "@/lib/pocketbase";
+import { deleteSchedule, getScheduleList, pb } from "@/lib/pocketbase";
 interface ScheduleCard {
   schedule: {
     id: string;
@@ -62,10 +62,8 @@ export default function ScheduleCard({
           <Button
             variant="destructive"
             onClick={async () => {
-              await pb.collection("groupSchedule").delete(schedule.id);
-              const res = await pb.collection("groupSchedule").getList(1, 50, {
-                filter: `group.day="${schedule.day}"`,
-              });
+              await deleteSchedule(schedule.id);
+              const res = await getScheduleList(schedule.day);
               if (res.items) {
                 setSchedule(
                   res.items.map((item) => {

@@ -2,7 +2,7 @@
 import DaySelector from "@/components/DaySelector";
 import ScheduleAddCard from "@/components/ScheduleAddCard";
 import ScheduleCard from "@/components/ScheduleCard";
-import { pb } from "@/lib/pocketbase";
+import { getScheduleList, pb } from "@/lib/pocketbase";
 import { useStore } from "@/lib/slice";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
@@ -17,9 +17,7 @@ const SchedulerPage = () => {
     const getSchedule = async () => {
       try {
         setIsLoading(true);
-        const result = await pb.collection("groupSchedule").getList(1, 50, {
-          filter: `group.day="${selectedDay}"`,
-        });
+        const result = await getScheduleList(selectedDay);
         if (result.items) {
           setIsLoading(false);
 
