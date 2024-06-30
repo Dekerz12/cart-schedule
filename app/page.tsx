@@ -1,7 +1,7 @@
 "use client";
 import DaySelector from "@/components/DaySelector";
 import ScheduleCard from "@/components/ScheduleCard";
-import { getScheduleList, pb } from "@/lib/pocketbase";
+import { getScheduleList, login } from "@/lib/pocketbase";
 import { useStore } from "@/lib/slice";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
@@ -15,6 +15,7 @@ export default function Home() {
     const getSchedule = async () => {
       try {
         setIsLoading(true);
+        await login();
         const result = await getScheduleList(selectedDay);
         if (result.items) {
           setIsLoading(false);

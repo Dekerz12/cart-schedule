@@ -2,10 +2,12 @@ import PocketBase from "pocketbase";
 
 export const pb = new PocketBase(process.env.NEXT_PUBLIC_DB_HOST);
 pb.autoCancellation(false);
-pb.admins.authWithPassword(
-  process.env.NEXT_PUBLIC_DB_USER as string,
-  process.env.NEXT_PUBLIC_DB_PASS as string
-);
+export const login = () => {
+  pb.admins.authWithPassword(
+    process.env.NEXT_PUBLIC_DB_USER as string,
+    process.env.NEXT_PUBLIC_DB_PASS as string
+  );
+};
 
 export const getScheduleList = async (selectedDay: string) => {
   return await pb.collection("groupSchedule").getList(1, 50, {
