@@ -54,12 +54,12 @@ export default function Home() {
               <path d="M21 12a9 9 0 1 1-6.219-8.56" />
             </svg>
           </div>
-        ) : !schedule.length ? (
+        ) : !schedule?.length ? (
           <div className="flex flex-col justify-center items-center flex-1 h-full">
             <Image src={conventionGif} alt="convention-image" unoptimized />
             <h1 className="font-bold"> Regional 2024 Convention</h1>
           </div>
-        ) : Array.isArray(schedule) && schedule.length ? (
+        ) : Array.isArray(schedule) && schedule?.length ? (
           <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4">
             {schedule.map((sched) => (
               <ScheduleCard key={sched.id} schedule={sched} />
