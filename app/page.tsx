@@ -4,9 +4,7 @@ import ScheduleCard from "@/components/ScheduleCard";
 import { getScheduleList, login } from "@/lib/pocketbase";
 import { useStore } from "@/lib/slice";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import conventionGif from "@/public/LottieFiles- Download Free lightweight animations for website & apps..gif";
 
 export default function Home() {
   const schedule = useStore((state) => state.scheduleList);
@@ -56,8 +54,8 @@ export default function Home() {
           </div>
         ) : Array.isArray(schedule) && schedule?.length ? (
           <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4">
-            {schedule.map((sched) => (
-              <ScheduleCard key={sched.id} schedule={sched} />
+            {schedule.map((sched, i) => (
+              <ScheduleCard key={i} schedule={sched} />
             ))}
           </div>
         ) : null}
