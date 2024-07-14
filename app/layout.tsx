@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -16,17 +17,10 @@ const nextWeek = `${dayjs().weekday(7).day(1).format("MMMM D")} - ${dayjs()
   .weekday(7)
   .format("MMMM D")}`;
 
-type Props = {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+export const metadata: Metadata = {
+  title: thisWeek,
+  description: "Local Cart Witnessing of Sta. Rita Congregation",
 };
-
-export async function generateMetadata({ params, searchParams }: Props) {
-  return {
-    title: dayjs().format("dddd") !== "Sunday" ? thisWeek : nextWeek,
-    description: "Local Cart Witnessing of Sta. Rita Congregation",
-  };
-}
 
 export default function RootLayout({
   children,
