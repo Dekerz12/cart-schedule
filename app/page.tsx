@@ -4,6 +4,8 @@ import ScheduleCard from "@/components/ScheduleCard";
 import { getScheduleList, login } from "@/lib/pocketbase";
 import { useStore } from "@/lib/slice";
 import { cn } from "@/lib/utils";
+import dayjs from "dayjs";
+import weekday from "dayjs/plugin/weekday";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -11,6 +13,18 @@ export default function Home() {
   const setSchedule = useStore((state) => state.updateScheduleList);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const selectedDay = useStore((state) => state.selectedDay);
+
+  dayjs.extend(weekday);
+
+  const thisWeek = `${dayjs().day(1).format("MMMM D")} - ${dayjs()
+    .weekday(7)
+    .format("MMMM D")}`;
+
+  const nextWeek = `${dayjs().weekday(7).day(1).format("MMMM D")} - ${dayjs()
+    .weekday(7)
+    .weekday(7)
+    .format("MMMM D")}`;
+
   useEffect(() => {
     const getSchedule = async () => {
       try {
@@ -32,6 +46,9 @@ export default function Home() {
 
   return (
     <div className="p-2 relative min-h-dvh flex flex-col">
+      <h1 className="font-bold text-xl">
+        {dayjs().format("dddd") === "Sunday" ? nextWeek : thisWeek}
+      </h1>
       <DaySelector />
 
       <div className="mt-4 flex-1 flex flex-col">
