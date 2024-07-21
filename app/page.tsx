@@ -46,9 +46,7 @@ export default function Home() {
 
   return (
     <div className="p-2 relative min-h-dvh flex flex-col">
-      <h1 className="font-bold text-xl">
-        {dayjs().format("dddd") === "Sunday" ? nextWeek : thisWeek}
-      </h1>
+      <h1 className="font-bold text-xl">July 22 - July 28</h1>
       <DaySelector />
 
       <div className="mt-4 flex-1 flex flex-col">
