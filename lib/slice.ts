@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { create } from "zustand";
 
 interface GlobalState {
@@ -42,7 +43,7 @@ interface GlobalState {
 }
 
 export const useStore = create<GlobalState>()((set) => ({
-  selectedDay: "monday",
+  selectedDay: dayjs().format("dddd").toLowerCase() as any,
   changeDay: (day) => set((state) => ({ selectedDay: day })),
   selectedSchedule: null,
   selectSchedule: (schedule) =>
