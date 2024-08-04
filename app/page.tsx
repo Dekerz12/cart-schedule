@@ -8,6 +8,14 @@ import dayjs from "dayjs";
 import weekday from "dayjs/plugin/weekday";
 import { useEffect, useState } from "react";
 
+const timeRangeMap = {
+  "6AM - 8AM": 1,
+  "8AM - 10AM": 2,
+  "10AM - 12NN": 3,
+  "1PM - 3PM": 4,
+  "3PM - 5PM": 5,
+};
+
 export default function Home() {
   const schedule = useStore((state) => state.scheduleList);
   const setSchedule = useStore((state) => state.updateScheduleList);
@@ -15,15 +23,6 @@ export default function Home() {
   const selectedDay = useStore((state) => state.selectedDay);
 
   dayjs.extend(weekday);
-
-  const thisWeek = `${dayjs().day(1).format("MMMM D")} - ${dayjs()
-    .weekday(7)
-    .format("MMMM D")}`;
-
-  const nextWeek = `${dayjs().weekday(7).day(1).format("MMMM D")} - ${dayjs()
-    .weekday(7)
-    .weekday(7)
-    .format("MMMM D")}`;
 
   useEffect(() => {
     const getSchedule = async () => {
@@ -33,7 +32,17 @@ export default function Home() {
         const result = await getScheduleList(selectedDay);
         if (result.items) {
           setIsLoading(false);
-          setSchedule(result.items.map((item) => item.group));
+
+          setSchedule(
+            result.items.map((item) =>
+              item.group.sort((a: any, b: any) => {
+                return (
+                  timeRangeMap[a.timeRange as keyof typeof timeRangeMap] -
+                  timeRangeMap[b.timeRange as keyof typeof timeRangeMap]
+                );
+              })
+            )
+          );
         }
       } catch (err) {
         setIsLoading(false);

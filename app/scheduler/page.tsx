@@ -7,6 +7,14 @@ import { useStore } from "@/lib/slice";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
+const timeRangeMap = {
+  "6AM - 8AM": 1,
+  "8AM - 10AM": 2,
+  "10AM - 12NN": 3,
+  "1PM - 3PM": 4,
+  "3PM - 5PM": 5,
+};
+
 const SchedulerPage = () => {
   const schedule = useStore((state) => state.scheduleList);
   const setSchedule = useStore((state) => state.updateScheduleList);
@@ -24,7 +32,12 @@ const SchedulerPage = () => {
           setSchedule(
             result.items.map((item) => {
               item.group.id = item.id;
-              return item.group;
+              return item.group.sort((a: any, b: any) => {
+                return (
+                  timeRangeMap[a.timeRange as keyof typeof timeRangeMap] -
+                  timeRangeMap[b.timeRange as keyof typeof timeRangeMap]
+                );
+              });
             })
           );
         }
@@ -39,6 +52,7 @@ const SchedulerPage = () => {
   const updateSchedule = (sched: any) => {
     setSchedule(sched);
   };
+
   return (
     <div className="h-dvh p-4 flex gap-2">
       <ScheduleAddCard updateSchedule={updateSchedule} />
