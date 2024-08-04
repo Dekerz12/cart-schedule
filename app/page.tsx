@@ -35,16 +35,14 @@ export default function Home() {
         setDate(date.field);
         if (result.items) {
           setIsLoading(false);
-
+          const items = result.items.map((item) => item.group);
           setSchedule(
-            result.items.map((item) =>
-              item.group.sort((a: any, b: any) => {
-                return (
-                  timeRangeMap[a.timeRange as keyof typeof timeRangeMap] -
-                  timeRangeMap[b.timeRange as keyof typeof timeRangeMap]
-                );
-              })
-            )
+            items.sort((a: any, b: any) => {
+              return (
+                timeRangeMap[a.timeRange as keyof typeof timeRangeMap] -
+                timeRangeMap[b.timeRange as keyof typeof timeRangeMap]
+              );
+            })
           );
         }
       } catch (err) {
