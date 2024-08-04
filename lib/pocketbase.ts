@@ -43,3 +43,16 @@ export const changeSchedule = async (
 export const deleteSchedule = async (id: string) => {
   await pb.collection("groupSchedule").delete(id);
 };
+
+export const getDate = async () => {
+  return await pb
+    .collection("date")
+    .getFirstListItem('id="z50nrpyy5yc7u7p"', {});
+};
+
+export const changeDate = async (newDate: string) => {
+  const data = {
+    field: newDate,
+  };
+  await pb.collection("date").update("z50nrpyy5yc7u7p", data);
+};

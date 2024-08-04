@@ -1,7 +1,9 @@
 "use client";
+import { DateChanger } from "@/components/DateChanger";
 import DaySelector from "@/components/DaySelector";
 import ScheduleAddCard from "@/components/ScheduleAddCard";
 import ScheduleCard from "@/components/ScheduleCard";
+import { Input } from "@/components/ui/input";
 import { getScheduleList, pb } from "@/lib/pocketbase";
 import { useStore } from "@/lib/slice";
 import { cn } from "@/lib/utils";
@@ -58,7 +60,10 @@ const SchedulerPage = () => {
       <ScheduleAddCard updateSchedule={updateSchedule} />
       <div className="flex-1">
         <div className="p-2 relative">
-          <DaySelector />
+          <div className="flex gap-4 items-center justify-between">
+            <DaySelector />
+            <DateChanger />
+          </div>
 
           <div className="mt-4">
             <h1 className="p-2 text-2xl font-bold">Schedule</h1>
