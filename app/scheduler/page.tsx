@@ -28,19 +28,22 @@ const SchedulerPage = () => {
       try {
         setIsLoading(true);
         const result = await getScheduleList(selectedDay);
+        console.log(result);
         if (result.items) {
           setIsLoading(false);
 
           setSchedule(
-            result.items.map((item) => {
-              item.group.id = item.id;
-              return item.group.sort((a: any, b: any) => {
+            result.items
+              .map((item) => {
+                item.group.id = item.id;
+                return item.group;
+              })
+              .sort((a: any, b: any) => {
                 return (
                   timeRangeMap[a.timeRange as keyof typeof timeRangeMap] -
                   timeRangeMap[b.timeRange as keyof typeof timeRangeMap]
                 );
-              });
-            })
+              })
           );
         }
       } catch (err) {
