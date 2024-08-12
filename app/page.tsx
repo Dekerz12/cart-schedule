@@ -3,18 +3,10 @@ import DaySelector from "@/components/DaySelector";
 import ScheduleCard from "@/components/ScheduleCard";
 import { getDate, getScheduleList, login } from "@/lib/pocketbase";
 import { useStore } from "@/lib/slice";
-import { cn } from "@/lib/utils";
+import { cn, timeRangeMap } from "@/lib/utils";
 import dayjs from "dayjs";
 import weekday from "dayjs/plugin/weekday";
 import { useEffect, useState } from "react";
-
-const timeRangeMap = {
-  "6AM - 8AM": 1,
-  "8AM - 10AM": 2,
-  "10AM - 12NN": 3,
-  "1PM - 3PM": 4,
-  "3PM - 5PM": 5,
-};
 
 export default function Home() {
   const schedule = useStore((state) => state.scheduleList);

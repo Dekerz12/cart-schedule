@@ -15,12 +15,21 @@ interface ScheduleCard {
   hasPopover?: boolean;
 }
 
+const timeColorMap = {
+  "6AM - 8AM": "#c8daf8",
+  "8AM - 10AM": "#fe9900",
+  "10AM - 12NN": "#d3a7be",
+  "1PM - 3PM": "#339a64",
+  "3PM - 5PM": "#c5e0b3",
+};
+
 export default function ScheduleCard({
   schedule,
   hasPopover = false,
 }: ScheduleCard) {
   const selectSchedule = useStore((state) => state.selectSchedule);
-
+  const color = timeColorMap[schedule.timeRange as keyof typeof timeColorMap];
+  console.log(color);
   const setSchedule = useStore((state) => state.updateScheduleList);
   if (hasPopover) {
     return (
@@ -83,7 +92,10 @@ export default function ScheduleCard({
         <Card className="max-w-lg p-4 grid gap-4 !min-h-[230px]">
           <div className="flex flex-col gap-2">
             <h3 className="text-lg font-semibold">{schedule.location}</h3>
-            <div className="bg-muted px-3 py-1 rounded-full text-sm font-medium text-muted-foreground w-fit">
+            <div
+              className={`px-3 py-1 rounded-full text-sm font-semibold text-stone-900 w-fit`}
+              style={{ background: color }}
+            >
               {schedule.timeRange}
             </div>
           </div>

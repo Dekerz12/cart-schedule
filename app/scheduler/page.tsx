@@ -6,16 +6,8 @@ import ScheduleCard from "@/components/ScheduleCard";
 import { Input } from "@/components/ui/input";
 import { getScheduleList, pb } from "@/lib/pocketbase";
 import { useStore } from "@/lib/slice";
-import { cn } from "@/lib/utils";
+import { cn, timeRangeMap } from "@/lib/utils";
 import { useEffect, useState } from "react";
-
-const timeRangeMap = {
-  "6AM - 8AM": 1,
-  "8AM - 10AM": 2,
-  "10AM - 12NN": 3,
-  "1PM - 3PM": 4,
-  "3PM - 5PM": 5,
-};
 
 const SchedulerPage = () => {
   const schedule = useStore((state) => state.scheduleList);
